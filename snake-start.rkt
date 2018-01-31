@@ -2,13 +2,14 @@
 (require 2htdp/universe 2htdp/image)
 
 
-(define SIZE 40) ; size * seg-size is used to place items on screen
+(define SIZE 40) ; size * seg-size is used to place items on screen, so SIZE*SEG-SIZE should == WIDTH == HEIGHT
+(define SEG-SIZE 10)  ; size of images
 (define WIDTH 400)
 (define HEIGHT 400)
 
-(define TICK-RATE 0.2)
+(define TICK-RATE 0.1)
 (define EXPIRATION-TIME 30)
-(define SEG-SIZE 10)
+
 
 (define ENDGAME-TEXT-SIZE 10)
 (define GOO-IMG (bitmap/file "./assets/goo.png"))
@@ -178,11 +179,17 @@
   (define snake (pit-snake w))
     (or (self-colliding? snake) (wall-colliding? snake)))
 
+(define (snake-length s)
+  (length (snake-segs s)))
+
+(define (snake-length-message s)
+  (string-append "Your snake was this long: " (number->string (length (snake-segs s)))))
+
 (define (dead-reason w)
   (define snake (pit-snake w))
   (cond
-    [(wall-colliding? snake) "Duh you hit a wall!"]
-    [else "You collided with yourself!"]
+    [(wall-colliding? snake) (string-append "Duh you hit a wall! " (snake-length-message snake))]
+    [else (string-append "You collided with yourself! " (snake-length-message snake))]
     ))
   
 (define (render-end w)
