@@ -179,9 +179,6 @@
   (define snake (pit-snake w))
     (or (self-colliding? snake) (wall-colliding? snake)))
 
-(define (snake-length s)
-  (length (snake-segs s)))
-
 (define (snake-length-message s)
   (string-append "Your snake was this long: " (number->string (length (snake-segs s)))))
 
@@ -193,7 +190,7 @@
     ))
   
 (define (render-end w)
-      (overlay (text (dead-reason w) ENDGAME-TEXT-SIZE "black")
+      (overlay (text (dead-reason w) ENDGAME-TEXT-SIZE "red")
                (render-snake-world w)))
 
 (define (render-snake-world w)
